@@ -1,4 +1,4 @@
-# Face Recognition Security System for Raspberry Pi 4B
+# Face Recognition Security System
 
 This project implements a facial recognition-based security system designed to run on a Raspberry Pi 4B. It utilizes a camera to capture live images, compares them against a database of known faces, and controls a solenoid lock based on the recognition result.
 
