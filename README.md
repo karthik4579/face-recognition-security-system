@@ -14,7 +14,7 @@ This project implements a facial recognition-based security system designed to r
 ## Hardware Requirements
 
 * Raspberry Pi 4B
-* **Camera Module:** OV5647 5MP 1080P IR-Cut Camera for Raspberry Pi 3/4 with Automatic Day Night Mode ([Product Page](https://robu.in/product/ov5647-5mp-1080p-ir-cut-camera-for-raspberry-pi-3-4-with-automatic-day-night-mode/))
+* **Camera Module:** OV5647 5MP 1080P IR-Cut Camera for Raspberry Pi 3/4 with Automatic Day Night Mode ([Link](https://robu.in/product/ov5647-5mp-ir-cut-camera-for-raspberry-pi-3-with-automatic-day-night-mode-switching/))
 * Solenoid Lock
 * LEDs (Red, Green, Yellow)
 * Buzzer
@@ -31,7 +31,7 @@ This project implements a facial recognition-based security system designed to r
 
 ## Installation
 
-1. Clone the repository: `git clone <repository_url>`
+1. Clone the repository: `git clone https://github.com/karthik4579/face-recognition-security-system.git`
 2. Install the required packages: `pip install -r requirements.txt`
 3. Configure the hardware connections according to the pin assignments in the `faceid.py` script.
 4. Copy the images of authorized individuals to a folder named `samples` on the USB drive.
@@ -48,11 +48,9 @@ This project implements a facial recognition-based security system designed to r
 ## Configuration
 
 * The pin assignments for the hardware components can be modified in the `faceid.py` script.
-* The `samples` folder on the USB drive should contain images of authorized individuals.
-
-## Note
-
-* The `led_fix.py` script appears to be a testing script for the LEDs and relay and is not directly used in the main functionality.
+* Create a `face-recognition-project` folder under which create a `samples` folder on the USB drive and this should contain images of authorized individuals.
+* The command  `python led_fix.py` has to be added into the .bashrc (Alternatively a linux service can also be created as well for the same).
+* And the raspberry pi os has to be set to a CLI only mode for the scripts like the `led_fix.py` to run.
 
 ## Future Improvements
 

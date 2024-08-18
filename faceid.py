@@ -5,7 +5,7 @@ import os
 from time import sleep
 from os import path
 from numpy import asarray
-
+from pathlib import Path
 
 # Some definitions for LED's,Buzzer and the solenoid lock
 GPIO.setmode(GPIO.BCM)
@@ -42,6 +42,9 @@ GPIO.setup(solenoid_pin, GPIO.OUT)
 # For Button
 GPIO.setup(button_pin,GPIO.IN)
 
+# Define base path using Path.cwd()
+base_path = Path.cwd()
+
 """
 Section for taking image and handling the creation of tmp_live_image folder
 where the live image of the person is stored
@@ -56,22 +59,25 @@ def takeimage():
             ret, frame = video_capture.read()
             # Convert the image from BGR color (which OpenCV uses by default) to RGB color
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            cv2.imwrite(filename='/home/karthik/face-recognition-project/tmp_live_image/tmp_pic.jpg', img=rgb_frame)
+            # Use f-string and Path.cwd() for image path
+            cv2.imwrite(filename=f'{base_path}/tmp_live_image/tmp_pic.jpg', img=rgb_frame)
             video_capture.release()
 
 
 def Imagefileops(operation):
             if operation == 1:
-                  if path.exists('/home/karthik/face-recognition-project/tmp_live_image') == False:
-                        os.system('mkdir /home/karthik/face-recognition-project/tmp_live_image')
+                  # Use f-string and Path.cwd() for directory path
+                  if path.exists(f'{base_path}/tmp_live_image') == False:
+                        os.system(f'mkdir {base_path}/tmp_live_image')
             elif operation == 0:
-                  if path.exists('/home/karthik/face-recognition-project/tmp_live_image') == True:
-                        os.system('rm -rf /home/karthik/face-recognition-project/tmp_live_image')
+                  # Use f-string and Path.cwd() for directory path
+                  if path.exists(f'{base_path}/tmp_live_image') == True:
+                        os.system(f'rm -rf {base_path}/tmp_live_image')
 
 
 
 # converting the list to array to save memory
-tmp_name_list = os.listdir("/mnt/usb/face-recognition-project/samples")
+tmp_name_list = os.listdir(f"{base_path}/samples")
 final_converted_array = asarray(tmp_name_list)
 del tmp_name_list
 
@@ -84,8 +90,8 @@ while True:          #checking if the USB has the folder or not
                continue
                
         else:       #If it exists only then the samples will be copied
-               os.system('rm -rf /home/karthik/face-recognition-project/samples')
-               os.system('cp -r /mnt/usb/face-recognition-project/samples /home/karthik/face-recognition-project')
+               os.system(f'rm -rf {base_path}/samples')
+               os.system(f'cp -r /mnt/usb/face-recognition-project/samples {base_path}')
                break
 
 
@@ -107,7 +113,7 @@ while True:
             '''
 
             for name in final_converted_array:
-                  result = DeepFace.verify(img1_path = "/home/karthik/face-recognition-project/tmp_live_image/tmp_pic.jpg",img2_path=f"/home/karthik/face-recognition-project/samples/{name}",distance_metric='euclidean_l2',model_name = 'Facenet512',detector_backend = 'opencv',enforce_detection= False)
+                  result = DeepFace.verify(img1_path = f"{base_path}/tmp_live_image/tmp_pic.jpg",img2_path=f"{base_path}/samples/{name}",distance_metric='euclidean_l2',model_name = 'Facenet512',detector_backend = 'opencv',enforce_detection= False)
                   if result['verified'] == True:
                         final_result = True
                         del result
